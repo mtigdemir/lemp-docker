@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www
+    ports:
+      - 80:80
+  fpm:
+    container_name: myapp-fpm
+    build: .
+    volumes:
+      - ./:/var/www
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: homestead
+    ports:
+      - 3306:3306
